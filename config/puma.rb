@@ -16,12 +16,9 @@ on_worker_boot do
   # setup application configuration files
   ENVIRONMENT = ENV["RACK_ENV"] || "development"
   DATABASE_CONFIG_FILE = ENV["DATABASE_CONFIG_FILE"] || YAML::load(File.open(File.expand_path(File.dirname(__FILE__) + "/database.yml")))
-
-  ENV["SESSION_SECRET"] = YAML::load(File.open(File.expand_path(File.dirname(__FILE__) + "/initializers/secret_token.rb")))["token"]
+  APPLICATION_CONFIG_FILE = ENV["DATABASE_CONFIG_FILE"] || YAML::load(File.open(File.expand_path(File.dirname(__FILE__) + "/application.yml")))
+  ENV["SESSION_SECRET"] = APPLICATION_CONFIG_FILE["SECRET_KEY"]
 
   # establish database connection
-  ActiveSupport.on_load(:active_record) do
-    ActiveRecord::Base.establish_connection(DATABASE_CONFIG_FILE[ENVIRONMENT])
-  end
-
+  ActiveSupport.on_load(:active_record) { ActiveRecord::Base.establish_connection(DATABASE_CONFIG_FILE[ENVIRONMENT]) }
 end
