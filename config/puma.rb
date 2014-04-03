@@ -9,7 +9,7 @@ preload_app!
 
 # setup variables for Sinatra setup
 rackup  DefaultRackup
-port  ENV["PORT"]  || 3000
+port  ENV["PORT"]  || 9000
 
 # configuration for each worker when it boots up
 on_worker_boot do

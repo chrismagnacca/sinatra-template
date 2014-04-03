@@ -13,7 +13,6 @@ require "database_cleaner"
 
 # set rack environment & secret token
 ENVIRONMENT = ENV["RACK_ENV"] || "test"
-ENV["SECRET_TOKEN"] = SecureRandom.hex(64)
 
 # coveralls.io, code coverage, & statistics
 Coveralls.wear!
@@ -56,6 +55,9 @@ RSpec.configure do |config|
   config.before(:suite) do
     begin
       DATABASE_CONFIG_FILE = YAML::load(File.open(File.expand_path(File.dirname(__FILE__) + "/../config/database.yml")))
+      APPLICATION_CONFIG_FILE = ENV["DATABASE_CONFIG_FILE"] || YAML::load(File.open(File.expand_path(File.dirname(__FILE__) + "/application.yml")))
+      ENV["SESSION_SECRET"] = APPLICATION_CONFIG_FILE["SECRET_KEY"]
+
 
       ActiveRecord::Base.establish_connection(DATABASE_CONFIG_FILE[ENVIRONMENT])
       DatabaseCleaner.start

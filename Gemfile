@@ -28,9 +28,6 @@ gem "activerecord-postgresql-adapter"
 # ruby web server
 gem "puma"
 
-# classier solution for file uploads for rails, sinatra and other ruby web frameworks
-gem "carrierwave"
-
 # rake ruby build toolkit
 gem "rake"
 
